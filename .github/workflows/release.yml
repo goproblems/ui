@@ -1,6 +1,16 @@
 name: Release
 on:
   workflow_dispatch:
+    inputs:
+      bump:
+        description: Version increment
+        type: choice
+        required: true
+        default: minor
+        options:
+          - patch
+          - minor
+          - major
 permissions:
   contents: write
 concurrency:
@@ -13,24 +23,30 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: main
           fetch-depth: 0
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: pnpm
-      - name: Resolve release tag
-        id: version
-        run: |
-          node --input-type=module <<'JS'
-          import {appendFileSync, readFileSync} from 'node:fs';
-          const {version} = JSON.parse(readFileSync('package.json', 'utf8'));
-          if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version)) {
-            throw new Error('Invalid package version');
-          }
-          appendFileSync(process.env.GITHUB_OUTPUT, `tag=v${version}\n`);
-          JS
       - run: pnpm install --frozen-lockfile
+      - name: Bump release version
+        id: version
+        env:
+          VERSION_BUMP: ${{ inputs.bump }}
+        run: |
+          case "$VERSION_BUMP" in
+            patch|minor|major) ;;
+            *) echo "::error::Invalid version increment"; exit 1 ;;
+          esac
+          pnpm version "$VERSION_BUMP" --no-git-tag-version --no-git-checks
+          release_tag="v$(node -p 'require("./package.json").version')"
+          echo "tag=$release_tag" >> "$GITHUB_OUTPUT"
+          if git show-ref --verify --quiet "refs/tags/$release_tag"; then
+            echo "::error::$release_tag already exists. Check package.json on main."
+            exit 1
+          fi
       - run: pnpm check
       - run: pnpm test
       - name: Create tag and GitHub Release
@@ -38,19 +54,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.version.outputs.tag }}
         run: |
-          if git show-ref --verify --quiet "refs/tags/$RELEASE_TAG"; then
-            echo "::error::$RELEASE_TAG already exists. Bump package.json for a new release."
-            exit 1
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json pnpm-lock.yaml
           git add --force dist
-          git commit -m "Build release $RELEASE_TAG"
+          git commit -m "Release $RELEASE_TAG"
           git tag -a "$RELEASE_TAG" -m "Release $RELEASE_TAG"
-          git push origin "refs/tags/$RELEASE_TAG"
-          release_args=()
-          if [[ "$RELEASE_TAG" == *-* ]]; then
-            release_args+=(--prerelease)
-          fi
+          git push --atomic origin HEAD:refs/heads/main "refs/tags/$RELEASE_TAG"
           gh release create "$RELEASE_TAG" --verify-tag \
-            --title "$RELEASE_TAG" --generate-notes "${release_args[@]}"
+            --title "$RELEASE_TAG" --generate-notes
