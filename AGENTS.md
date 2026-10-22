@@ -7,6 +7,9 @@ stores, transports, navigation, persistence, and pages in consuming applications
 - Keep relative TypeScript imports ending in `.js` so emitted ESM works in Node.js
   and bundlers.
 - Run `pnpm check` and `pnpm test` after changing code.
+- Build JavaScript from source with React Compiler before lowering JSX and
+  TypeScript. Target React 19 and use its built-in compiler runtime. TypeScript
+  emits declarations separately.
 - `pnpm pack` must include built JavaScript, declarations, and source files.
 - React and other peer dependencies belong to the consuming application.
 - Update package.json with `pnpm version patch --no-git-tag-version` (or minor/major)
