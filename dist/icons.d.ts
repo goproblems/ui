@@ -1,0 +1,32 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { ComponentProps } from 'react';
+type IconProps = Omit<ComponentProps<typeof FontAwesomeIcon>, 'icon' | 'size'> & {
+    size?: number | string;
+};
+export declare const ArrowLeft: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const ArrowRight: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const ArrowRightShort: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const ArrowsCollapse: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const BarChartFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const BellFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const CheckCircleFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const CheckSquare: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const DiamondFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const FileText: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const FileTextFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Heart: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const HeartFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const InfoCircle: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const LightningChargeFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const LightningFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Lock: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const Magic: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const PencilFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const People: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const PersonFillAdd: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const PersonFillDash: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const PlayFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const TrophyFill: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export declare const XCircle: ({ size, style, ...props }: IconProps) => import("react/jsx-runtime").JSX.Element;
+export {};
+//# sourceMappingURL=icons.d.ts.map
