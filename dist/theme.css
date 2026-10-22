@@ -1,0 +1,76 @@
+/*
+ * Shared site palette. Use these roles for themed surfaces and content; use
+ * Tailwind's neutral, blue, emerald, red and amber utilities for fixed colors.
+ * Keep links separate from primary actions so navigation stays understated.
+ */
+:root {
+    color-scheme: light;
+    --ui-page: var(--color-neutral-50);
+    --ui-surface: var(--color-white);
+    --ui-surface-muted: var(--color-neutral-50);
+    --ui-surface-active: var(--color-neutral-100);
+    --ui-surface-hover: var(--color-neutral-100);
+    --ui-border: var(--color-neutral-200);
+    --ui-border-strong: var(--color-neutral-300);
+    --ui-text: var(--color-neutral-800);
+    --ui-text-secondary: var(--color-neutral-600);
+    --ui-text-muted: var(--color-neutral-500);
+    --ui-text-emphasis: var(--color-neutral-950);
+    --ui-link: var(--color-neutral-600);
+    --ui-link-hover: var(--color-neutral-900);
+    --ui-link-underline: var(--color-neutral-400);
+    --ui-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23737373' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --ui-primary: var(--color-blue-600);
+    --ui-primary-hover: var(--color-blue-700);
+    --ui-primary-active: var(--color-blue-800);
+    --ui-accent: var(--color-blue-700);
+    --ui-accent-bg: var(--color-blue-50);
+    --ui-accent-border: var(--color-blue-200);
+    --ui-focus-ring: var(--color-blue-500);
+    --ui-success: var(--color-emerald-700);
+    --ui-success-bg: var(--color-emerald-50);
+    --ui-success-border: var(--color-emerald-200);
+    --ui-danger: var(--color-red-700);
+    --ui-danger-bg: var(--color-red-50);
+    --ui-danger-border: var(--color-red-200);
+    --ui-warning: var(--color-amber-700);
+    --ui-warning-bg: var(--color-amber-50);
+    --ui-warning-border: var(--color-amber-200);
+    --ui-info: var(--color-cyan-700);
+    --ui-info-bg: var(--color-cyan-50);
+    --ui-info-border: var(--color-cyan-200);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+    --ui-page: var(--color-neutral-950);
+    --ui-surface: var(--color-neutral-900);
+    --ui-surface-muted: var(--color-neutral-800);
+    --ui-surface-active: var(--color-neutral-700);
+    --ui-surface-hover: var(--color-neutral-800);
+    --ui-border: var(--color-neutral-700);
+    --ui-border-strong: var(--color-neutral-600);
+    --ui-text: var(--color-neutral-200);
+    --ui-text-secondary: var(--color-neutral-300);
+    --ui-text-muted: var(--color-neutral-400);
+    --ui-text-emphasis: var(--color-neutral-50);
+    --ui-link: var(--color-neutral-300);
+    --ui-link-hover: var(--color-neutral-100);
+    --ui-link-underline: var(--color-neutral-500);
+    --ui-select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23a3a3a3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    --ui-accent: var(--color-blue-300);
+    --ui-accent-bg: var(--color-blue-950);
+    --ui-accent-border: var(--color-blue-800);
+    --ui-success: var(--color-emerald-400);
+    --ui-success-bg: var(--color-emerald-950);
+    --ui-success-border: var(--color-emerald-800);
+    --ui-danger: var(--color-red-400);
+    --ui-danger-bg: var(--color-red-950);
+    --ui-danger-border: var(--color-red-800);
+    --ui-warning: var(--color-amber-400);
+    --ui-warning-bg: var(--color-amber-950);
+    --ui-warning-border: var(--color-amber-800);
+    --ui-info: var(--color-cyan-400);
+    --ui-info-bg: var(--color-cyan-950);
+    --ui-info-border: var(--color-cyan-800);
+}
