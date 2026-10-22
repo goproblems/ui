@@ -10,6 +10,11 @@ stores, transports, navigation, persistence, and pages in consuming applications
 - `pnpm pack` must include built JavaScript, declarations, and source files.
 - React and other peer dependencies belong to the consuming application.
 - Update package.json with `pnpm version patch --no-git-tag-version` (or minor/major)
-  when preparing a release, commit the change, then push a matching `vX.Y.Z` tag.
+  when preparing a release, commit and push main, then manually run the Release
+  workflow. It creates the matching `vX.Y.Z` tag and GitHub Release.
+- Keep registry publishing disabled. Release tags include compiled `dist/` in a
+  release commit; main keeps generated files ignored. Consumers install from a
+  GitHub tag and commit their lockfile. Keep `main` pointing to a built entry so
+  pnpm can recognize releases that already contain build output.
 - UI changes must preserve existing behavior and styles; keep Tailwind class names
   statically discoverable in the published JavaScript.
