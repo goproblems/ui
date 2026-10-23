@@ -1,6 +1,6 @@
 {
     "name": "@goproblems/ui",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "private": true,
     "description": "Shared GoProblems and Josekipedia React web components and themes.",
     "license": "UNLICENSED",
