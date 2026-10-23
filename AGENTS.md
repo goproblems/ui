@@ -1,5 +1,7 @@
 # Repository guidelines
 
+- Keep `README.md` empty for now. Do not add README content unless the user
+  explicitly requests it. Put repository guidance in `AGENTS.md` instead.
 - Keep application-specific stores, transports, navigation, persistence, and pages
   in consuming applications.
 - Preserve UI behavior and styles; keep Tailwind class names statically discoverable.

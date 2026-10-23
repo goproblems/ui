@@ -1,5 +1,6 @@
 export { Button } from './Button.js';
 export { Card, CardBody, CardHeader } from './Card.js';
+export { Article, ArticleHeader, ArticleTitle, ArticleBody, ArticleMeta } from './Article.js';
 export { Col, Container, Row } from './Grid.js';
 export { Alert, Badge, Spinner, Table } from './Feedback.js';
 export { Form, FormCheck, FormControl, FormSelect, InputGroup } from './Form.js';
