@@ -10,8 +10,12 @@ export { Nav } from './Nav.js';
 export { ButtonGroup, Dropdown, DropdownButton, ToggleButton, ToggleButtonGroup } from './Dropdown.js';
 export { NavDropdown, Navbar } from './Navbar.js';
 export { Overlay, OverlayTrigger, Popover, PopoverHeader, Tooltip } from './Overlay.js';
+export { HelpPopover } from './HelpPopover.js';
 export { Accordion } from './Accordion.js';
 export { Image, Pagination, Placeholder, ProgressBar } from './Misc.js';
 export { Collapse, Offcanvas } from './Offcanvas.js';
 export { UiProvider } from './UiProvider.js';
+export { AnalysisPointSettings, AnalysisPointColorScale } from './AnalysisPointSettings.js';
+export * from './analysisPointConfig.js';
+export { BoardSettings } from './BoardSettings.js';
 //# sourceMappingURL=index.js.map

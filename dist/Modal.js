@@ -1,6 +1,7 @@
 import { c as _c } from "react/compiler-runtime";
 import { createContext, forwardRef, useContext, useEffect } from 'react';
 import { clsx } from 'clsx';
+import { DraggableModalDialog, ModalDragContext } from './DraggableModalDialog.js';
 import { omitUiProps, renderAs } from './utils.js';
 import { useUiLabels } from './UiProvider.js';
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
@@ -11,6 +12,7 @@ const ModalBase = /*#__PURE__*/forwardRef(({
   children,
   className,
   dialogClassName,
+  draggable = false,
   fullscreen,
   onHide,
   show,
@@ -26,6 +28,7 @@ const ModalBase = /*#__PURE__*/forwardRef(({
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onHide, show]);
   if (!show) return null;
+  const Dialog = draggable ? DraggableModalDialog : 'div';
   return /*#__PURE__*/_jsx(ModalContext.Provider, {
     value: {
       onHide
@@ -37,7 +40,7 @@ const ModalBase = /*#__PURE__*/forwardRef(({
           onHide?.();
         }
       },
-      children: /*#__PURE__*/_jsx("div", {
+      children: /*#__PURE__*/_jsx(Dialog, {
         ...omitUiProps(props),
         ref: ref,
         role: "dialog",
@@ -49,58 +52,76 @@ const ModalBase = /*#__PURE__*/forwardRef(({
   });
 });
 const ModalHeader = t0 => {
-  const $ = _c(11);
+  const $ = _c(16);
   const {
     closeButton,
     children,
     className,
+    onPointerDown,
     ...props
   } = t0;
   const {
     onHide
   } = useContext(ModalContext);
+  const startDrag = useContext(ModalDragContext);
   const labels = useUiLabels();
   const t1 = omitUiProps(props);
   let t2;
-  if ($[0] !== className) {
-    t2 = clsx("flex items-center justify-between border-b border-neutral-200 px-4 py-3 dark:border-[var(--ui-border)]", className);
-    $[0] = className;
-    $[1] = t2;
+  if ($[0] !== onPointerDown || $[1] !== startDrag) {
+    t2 = event => {
+      onPointerDown?.(event);
+      startDrag?.(event);
+    };
+    $[0] = onPointerDown;
+    $[1] = startDrag;
+    $[2] = t2;
   } else {
-    t2 = $[1];
+    t2 = $[2];
   }
-  let t3;
-  if ($[2] !== closeButton || $[3] !== labels || $[4] !== onHide) {
-    t3 = closeButton && /*#__PURE__*/_jsx("button", {
+  const t3 = startDrag && "cursor-grab touch-none select-none active:cursor-grabbing";
+  let t4;
+  if ($[3] !== className || $[4] !== t3) {
+    t4 = clsx("flex items-center justify-between border-b border-neutral-200 px-4 py-3 dark:border-[var(--ui-border)]", t3, className);
+    $[3] = className;
+    $[4] = t3;
+    $[5] = t4;
+  } else {
+    t4 = $[5];
+  }
+  let t5;
+  if ($[6] !== closeButton || $[7] !== labels || $[8] !== onHide) {
+    t5 = closeButton && /*#__PURE__*/_jsx("button", {
       type: "button",
       onClick: onHide,
       "aria-label": labels.close,
-      className: "ml-4 rounded p-1 text-2xl leading-none opacity-60 hover:bg-neutral-100 hover:opacity-100 dark:hover:bg-[var(--ui-surface-muted)]",
+      className: "ml-4 cursor-pointer rounded p-1 text-2xl leading-none opacity-60 hover:bg-neutral-100 hover:opacity-100 dark:hover:bg-[var(--ui-surface-muted)]",
       children: "×"
     });
-    $[2] = closeButton;
-    $[3] = labels;
-    $[4] = onHide;
-    $[5] = t3;
+    $[6] = closeButton;
+    $[7] = labels;
+    $[8] = onHide;
+    $[9] = t5;
   } else {
-    t3 = $[5];
+    t5 = $[9];
   }
-  let t4;
-  if ($[6] !== children || $[7] !== t1 || $[8] !== t2 || $[9] !== t3) {
-    t4 = /*#__PURE__*/_jsxs("div", {
+  let t6;
+  if ($[10] !== children || $[11] !== t1 || $[12] !== t2 || $[13] !== t4 || $[14] !== t5) {
+    t6 = /*#__PURE__*/_jsxs("div", {
       ...t1,
-      className: t2,
-      children: [children, t3]
+      onPointerDown: t2,
+      className: t4,
+      children: [children, t5]
     });
-    $[6] = children;
-    $[7] = t1;
-    $[8] = t2;
-    $[9] = t3;
-    $[10] = t4;
+    $[10] = children;
+    $[11] = t1;
+    $[12] = t2;
+    $[13] = t4;
+    $[14] = t5;
+    $[15] = t6;
   } else {
-    t4 = $[10];
+    t6 = $[15];
   }
-  return t4;
+  return t6;
 };
 const ModalTitle = props => renderAs('h5', props, 'text-lg font-semibold');
 const ModalBody = props => renderAs('div', props, 'p-4');

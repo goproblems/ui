@@ -1,5 +1,6 @@
 import {createContext, forwardRef, useContext, useEffect} from 'react';
 import {clsx} from 'clsx';
+import {DraggableModalDialog, ModalDragContext} from './DraggableModalDialog.js';
 import {omitUiProps, renderAs, type AnyProps} from './utils.js';
 import {useUiLabels} from './UiProvider.js';
 
@@ -13,6 +14,7 @@ const ModalBase = forwardRef<HTMLDivElement, AnyProps>(
             children,
             className,
             dialogClassName,
+            draggable = false,
             fullscreen,
             onHide,
             show,
@@ -31,6 +33,7 @@ const ModalBase = forwardRef<HTMLDivElement, AnyProps>(
         }, [onHide, show]);
 
         if (!show) return null;
+        const Dialog = draggable ? DraggableModalDialog : 'div';
         return (
             <ModalContext.Provider value={{onHide}}>
                 <div
@@ -44,7 +47,7 @@ const ModalBase = forwardRef<HTMLDivElement, AnyProps>(
                             onHide?.();
                         }
                     }}>
-                    <div
+                    <Dialog
                         {...omitUiProps(props)}
                         ref={ref}
                         role="dialog"
@@ -62,20 +65,26 @@ const ModalBase = forwardRef<HTMLDivElement, AnyProps>(
                             dialogClassName
                         )}>
                         {children}
-                    </div>
+                    </Dialog>
                 </div>
             </ModalContext.Provider>
         );
     }
 );
-const ModalHeader = ({closeButton, children, className, ...props}: AnyProps) => {
+const ModalHeader = ({closeButton, children, className, onPointerDown, ...props}: AnyProps) => {
     const {onHide} = useContext(ModalContext);
+    const startDrag = useContext(ModalDragContext);
     const labels = useUiLabels();
     return (
         <div
             {...omitUiProps(props)}
+            onPointerDown={event => {
+                onPointerDown?.(event);
+                startDrag?.(event);
+            }}
             className={clsx(
                 'flex items-center justify-between border-b border-neutral-200 px-4 py-3 dark:border-[var(--ui-border)]',
+                startDrag && 'cursor-grab touch-none select-none active:cursor-grabbing',
                 className
             )}>
             {children}
@@ -84,7 +93,7 @@ const ModalHeader = ({closeButton, children, className, ...props}: AnyProps) => 
                     type="button"
                     onClick={onHide}
                     aria-label={labels.close}
-                    className="ml-4 rounded p-1 text-2xl leading-none opacity-60 hover:bg-neutral-100 hover:opacity-100 dark:hover:bg-[var(--ui-surface-muted)]">
+                    className="ml-4 cursor-pointer rounded p-1 text-2xl leading-none opacity-60 hover:bg-neutral-100 hover:opacity-100 dark:hover:bg-[var(--ui-surface-muted)]">
                     ×
                 </button>
             )}
