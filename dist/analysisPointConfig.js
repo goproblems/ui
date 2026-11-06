@@ -30,6 +30,21 @@ export const ANALYSIS_POINT_STYLE_PRESETS = {
     badge: 'moveOrder',
     shape: 'circle'
   },
+  analysisVisits: {
+    lines: ['score', 'visits', 'none'],
+    badge: 'moveOrder',
+    shape: 'circle'
+  },
+  analysisFutureNodes: {
+    lines: ['score', 'descendantCount', 'none'],
+    badge: 'moveOrder',
+    shape: 'circle'
+  },
+  analysisVisitsWithPolicy: {
+    lines: ['policy', 'score', 'visits'],
+    badge: 'moveOrder',
+    shape: 'circle'
+  },
   detailed: {
     lines: ['policy', 'score', 'descendantCount'],
     badge: 'moveOrder',
@@ -41,6 +56,7 @@ export const DEFAULT_ANALYSIS_POINT_STYLE_SETTINGS = {
   custom: {
     lines: ['score', 'descendantCount', 'none'],
     badge: 'moveOrder',
+    badgeStyle: 'plain',
     shape: 'circle'
   }
 };
@@ -51,7 +67,7 @@ export function defaultAnalysisPointOpacity(settings) {
   return resolveAnalysisPointStyle(settings).shape === 'variation' ? 1 : DEFAULT_ANALYSIS_POINT_OPACITY;
 }
 export function isAnalysisPointStylePreset(value) {
-  return typeof value === 'string' && ['moveOrderOnly', 'variationMarkers', 'policyOrderOnly', 'policyOnly', 'standard', 'detailed', 'custom'].includes(value);
+  return typeof value === 'string' && ['moveOrderOnly', 'variationMarkers', 'policyOrderOnly', 'policyOnly', 'standard', 'analysisVisits', 'analysisFutureNodes', 'analysisVisitsWithPolicy', 'detailed', 'custom'].includes(value);
 }
 export function isAnalysisPointSlot(value) {
   return value === 'none' || typeof value === 'string' && ANALYSIS_POINT_METRICS.includes(value);
@@ -65,7 +81,7 @@ export function isAnalysisPointLowPolicyDisplay(value) {
 export function isAnalysisPointStyleLayout(value) {
   if (typeof value !== 'object' || value === null) return false;
   const candidate = value;
-  if (!Array.isArray(candidate.lines) || candidate.lines.length !== 3 || !candidate.lines.every(isAnalysisPointSlot) || !isAnalysisPointSlot(candidate.badge) || !isAnalysisPointShape(candidate.shape)) {
+  if (!Array.isArray(candidate.lines) || candidate.lines.length !== 3 || !candidate.lines.every(isAnalysisPointSlot) || !isAnalysisPointSlot(candidate.badge) || candidate.badgeStyle !== undefined && candidate.badgeStyle !== 'plain' && candidate.badgeStyle !== 'filled' || !isAnalysisPointShape(candidate.shape)) {
     return false;
   }
   const selected = [...candidate.lines, candidate.badge].filter(slot => slot !== 'none');

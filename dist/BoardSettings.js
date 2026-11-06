@@ -197,7 +197,7 @@ export const BoardSettings = t0 => {
   let t12;
   if ($[29] !== t11 || $[30] !== t9) {
     t12 = /*#__PURE__*/_jsxs("fieldset", {
-      className: "ui-board-theme-fieldset",
+      className: "ui-settings-fieldset ui-board-theme-fieldset",
       children: [t9, t11]
     });
     $[29] = t11;

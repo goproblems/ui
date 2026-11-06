@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { clsx } from 'clsx';
-import { ANALYSIS_POINT_COLORS, ANALYSIS_POINT_METRICS, DEFAULT_ANALYSIS_POINT_COLOR_THRESHOLDS, defaultAnalysisPointOpacity } from './analysisPointConfig.js';
+import { ANALYSIS_POINT_COLORS, ANALYSIS_POINT_METRICS, DEFAULT_ANALYSIS_POINT_COLOR_THRESHOLDS, DEFAULT_ANALYSIS_POINT_OPACITY, defaultAnalysisPointOpacity } from './analysisPointConfig.js';
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 export const AnalysisPointColorScale = ({
   value,
@@ -16,7 +16,7 @@ export const AnalysisPointColorScale = ({
   const id = useId();
   const defaults = defaultValue ?? DEFAULT_ANALYSIS_POINT_COLOR_THRESHOLDS;
   return /*#__PURE__*/_jsxs("fieldset", {
-    className: clsx('ui-analysis-point-colors', className),
+    className: clsx('ui-settings-fieldset ui-board-theme-fieldset ui-analysis-point-colors', className),
     children: [/*#__PURE__*/_jsx("legend", {
       children: title
     }), /*#__PURE__*/_jsx("div", {
@@ -86,6 +86,11 @@ const defaultLabels = {
   shape: 'Point shape',
   none: 'None',
   badge: 'Top-right label',
+  badgeStyle: 'Top-right label style',
+  badgeStyles: {
+    plain: 'Plain text',
+    filled: 'With background'
+  },
   lines: ['First line', 'Second line', 'Third line'],
   shapes: {
     circle: 'Circle',
@@ -97,6 +102,9 @@ const defaultLabels = {
     policyOrderOnly: 'Policy order only',
     policyOnly: 'Policy only',
     standard: 'Analysis',
+    analysisVisits: 'Analysis (visits)',
+    analysisFutureNodes: 'Analysis (Future nodes)',
+    analysisVisitsWithPolicy: 'Analysis (visits with policy)',
     detailed: 'Analysis (with policy)',
     custom: 'Custom'
   },
@@ -119,6 +127,42 @@ const defaultLabels = {
   colorBoundaries: ['Green → Yellow', 'Yellow → Orange', 'Orange → Dark orange', 'Dark orange → Red', 'Red → Purple'],
   resetColors: 'Reset colors'
 };
+export const AnalysisPointOpacityControl = ({
+  value,
+  defaultValue = DEFAULT_ANALYSIS_POINT_OPACITY,
+  onChange,
+  label = 'Point opacity',
+  resetLabel = 'Reset opacity'
+}) => {
+  const id = useId();
+  return /*#__PURE__*/_jsxs("div", {
+    className: "ui-analysis-point-opacity-group",
+    children: [/*#__PURE__*/_jsx("label", {
+      htmlFor: id,
+      children: label
+    }), /*#__PURE__*/_jsxs("div", {
+      className: "ui-analysis-point-opacity-row",
+      children: [/*#__PURE__*/_jsx("input", {
+        id: id,
+        type: "range",
+        min: 20,
+        max: 100,
+        step: 1,
+        value: Math.round(value * 100),
+        onChange: event => onChange(Number(event.currentTarget.value) / 100)
+      }), /*#__PURE__*/_jsxs("output", {
+        htmlFor: id,
+        children: [Math.round(value * 100), "%"]
+      }), /*#__PURE__*/_jsx("button", {
+        type: "button",
+        disabled: value === defaultValue,
+        onClick: () => onChange(defaultValue),
+        children: resetLabel
+      })]
+    })]
+  });
+};
+
 /** Controlled settings only: data, persistence, translations and preview rendering belong to the application. */
 export const AnalysisPointSettings = ({
   value,
@@ -133,6 +177,8 @@ export const AnalysisPointSettings = ({
   lowPolicyHelp,
   existingNodesHelp,
   showColors = true,
+  showOpacity = true,
+  showBadgeStyleControl = false,
   className
 }) => {
   const id = useId();
@@ -179,93 +225,97 @@ export const AnalysisPointSettings = ({
     "data-ui": "analysis-point-settings",
     className: clsx('ui-analysis-point-settings', className),
     children: [preview, /*#__PURE__*/_jsxs("fieldset", {
-      className: "ui-analysis-point-presets",
+      className: "ui-settings-fieldset ui-board-theme-fieldset ui-analysis-point-style",
       children: [/*#__PURE__*/_jsx("legend", {
         children: labels.style
-      }), presets.map(preset => /*#__PURE__*/_jsxs("label", {
-        className: value.style.preset === preset ? 'is-selected' : undefined,
-        children: [/*#__PURE__*/_jsx("input", {
-          type: "radio",
-          name: `${id}-preset`,
-          checked: value.style.preset === preset,
-          onChange: () => onChange({
-            ...value,
-            style: {
-              ...value.style,
-              preset
-            }
+      }), /*#__PURE__*/_jsx("div", {
+        className: "ui-analysis-point-presets",
+        children: presets.map(preset => /*#__PURE__*/_jsxs("label", {
+          className: value.style.preset === preset ? 'is-selected' : undefined,
+          children: [/*#__PURE__*/_jsx("input", {
+            type: "radio",
+            name: `${id}-preset`,
+            checked: value.style.preset === preset,
+            onChange: () => onChange({
+              ...value,
+              style: {
+                ...value.style,
+                preset
+              }
+            })
+          }), labels.presets[preset]]
+        }, preset))
+      }), showOpacity && /*#__PURE__*/_jsx(AnalysisPointOpacityControl, {
+        value: value.opacity,
+        defaultValue: defaultAnalysisPointOpacity(value.style),
+        onChange: opacity => onChange({
+          ...value,
+          opacity
+        }),
+        label: labels.opacity,
+        resetLabel: labels.resetOpacity
+      }), value.style.preset === 'custom' && /*#__PURE__*/_jsxs("div", {
+        className: "ui-analysis-point-custom",
+        children: [/*#__PURE__*/_jsxs("div", {
+          className: "ui-analysis-point-shape",
+          children: [/*#__PURE__*/_jsx("span", {
+            children: labels.shape
+          }), /*#__PURE__*/_jsx("div", {
+            className: "ui-analysis-point-shape-options",
+            role: "radiogroup",
+            "aria-label": labels.shape,
+            children: ['circle', 'square'].map(shape => /*#__PURE__*/_jsxs("label", {
+              className: custom.shape === shape ? 'is-selected' : undefined,
+              children: [/*#__PURE__*/_jsx("input", {
+                type: "radio",
+                name: `${id}-shape`,
+                checked: custom.shape === shape,
+                onChange: () => changeCustom({
+                  ...custom,
+                  shape
+                })
+              }), labels.shapes[shape]]
+            }, shape))
+          })]
+        }), custom.lines.map((slot_0, index) => /*#__PURE__*/_jsx("div", {
+          children: metricSelect(slot_0, labels.lines[index], metric_1 => {
+            const lines = [...custom.lines];
+            lines[index] = metric_1;
+            changeCustom({
+              ...custom,
+              lines
+            });
           })
-        }), labels.presets[preset]]
-      }, preset))]
-    }), /*#__PURE__*/_jsxs("div", {
-      className: "ui-analysis-point-opacity-group",
-      children: [/*#__PURE__*/_jsx("label", {
-        htmlFor: `${id}-opacity`,
-        children: labels.opacity
-      }), /*#__PURE__*/_jsxs("div", {
-        className: "ui-analysis-point-opacity-row",
-        children: [/*#__PURE__*/_jsx("input", {
-          id: `${id}-opacity`,
-          type: "range",
-          min: 20,
-          max: 100,
-          step: 1,
-          value: Math.round(value.opacity * 100),
-          onChange: event_0 => onChange({
-            ...value,
-            opacity: Number(event_0.currentTarget.value) / 100
-          })
-        }), /*#__PURE__*/_jsxs("output", {
-          htmlFor: `${id}-opacity`,
-          children: [Math.round(value.opacity * 100), "%"]
-        }), /*#__PURE__*/_jsx("button", {
-          type: "button",
-          disabled: value.opacity === defaultAnalysisPointOpacity(value.style),
-          onClick: () => onChange({
-            ...value,
-            opacity: defaultAnalysisPointOpacity(value.style)
-          }),
-          children: labels.resetOpacity
+        }, index)), metricSelect(custom.badge, labels.badge, badge => changeCustom({
+          ...custom,
+          badge
+        })), showBadgeStyleControl && /*#__PURE__*/_jsxs("div", {
+          className: "ui-analysis-point-shape",
+          children: [/*#__PURE__*/_jsx("span", {
+            id: `${id}-badge-style-label`,
+            children: labels.badgeStyle
+          }), /*#__PURE__*/_jsx("div", {
+            className: "ui-analysis-point-shape-options ui-analysis-point-badge-options",
+            role: "radiogroup",
+            "aria-labelledby": `${id}-badge-style-label`,
+            children: ['plain', 'filled'].map(badgeStyle => /*#__PURE__*/_jsxs("label", {
+              className: (custom.badgeStyle ?? 'plain') === badgeStyle ? 'is-selected' : undefined,
+              children: [/*#__PURE__*/_jsx("input", {
+                type: "radio",
+                name: `${id}-badge-style`,
+                checked: (custom.badgeStyle ?? 'plain') === badgeStyle,
+                disabled: custom.badge === 'none',
+                onChange: () => changeCustom({
+                  ...custom,
+                  badgeStyle
+                })
+              }), labels.badgeStyles[badgeStyle]]
+            }, badgeStyle))
+          })]
         })]
       })]
-    }), value.style.preset === 'custom' && /*#__PURE__*/_jsxs("div", {
-      className: "ui-analysis-point-custom",
-      children: [/*#__PURE__*/_jsxs("div", {
-        className: "ui-analysis-point-shape",
-        children: [/*#__PURE__*/_jsx("span", {
-          children: labels.shape
-        }), /*#__PURE__*/_jsx("div", {
-          className: "ui-analysis-point-shape-options",
-          role: "radiogroup",
-          "aria-label": labels.shape,
-          children: ['circle', 'square'].map(shape => /*#__PURE__*/_jsxs("label", {
-            className: custom.shape === shape ? 'is-selected' : undefined,
-            children: [/*#__PURE__*/_jsx("input", {
-              type: "radio",
-              name: `${id}-shape`,
-              checked: custom.shape === shape,
-              onChange: () => changeCustom({
-                ...custom,
-                shape
-              })
-            }), labels.shapes[shape]]
-          }, shape))
-        })]
-      }), custom.lines.map((slot_0, index) => /*#__PURE__*/_jsx("div", {
-        children: metricSelect(slot_0, labels.lines[index], metric_1 => {
-          const lines = [...custom.lines];
-          lines[index] = metric_1;
-          changeCustom({
-            ...custom,
-            lines
-          });
-        })
-      }, index)), metricSelect(custom.badge, labels.badge, badge => changeCustom({
-        ...custom,
-        badge
-      }))]
     }), showLowPolicyControls && /*#__PURE__*/_jsxs("fieldset", {
-      className: "ui-analysis-point-low-policy",
+      className: "ui-settings-fieldset ui-board-theme-fieldset ui-analysis-point-low-policy",
       children: [/*#__PURE__*/_jsx("legend", {
         children: labels.lowPolicy
       }), /*#__PURE__*/_jsx("div", {
@@ -290,9 +340,9 @@ export const AnalysisPointSettings = ({
             type: "checkbox",
             checked: value.alwaysShowExistingNodes,
             disabled: !existingNodesAvailable,
-            onChange: event_1 => onChange({
+            onChange: event_0 => onChange({
               ...value,
-              alwaysShowExistingNodes: event_1.currentTarget.checked
+              alwaysShowExistingNodes: event_0.currentTarget.checked
             })
           }), labels.existingNodes]
         }), existingNodesHelp]

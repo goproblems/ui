@@ -19,6 +19,11 @@ export type AnalysisPointSettingsLabels = {
     shape: string;
     none: string;
     badge: string;
+    badgeStyle: string;
+    badgeStyles: {
+        plain: string;
+        filled: string;
+    };
     lines: [string, string, string];
     shapes: {
         circle: string;
@@ -50,8 +55,18 @@ export type AnalysisPointSettingsProps<T extends readonly number[] = AnalysisPoi
     lowPolicyHelp?: Partial<Record<AnalysisPointLowPolicyDisplay, ReactNode>>;
     existingNodesHelp?: ReactNode;
     showColors?: boolean;
+    showOpacity?: boolean;
+    showBadgeStyleControl?: boolean;
     className?: string;
 };
+export type AnalysisPointOpacityControlProps = {
+    value: number;
+    defaultValue?: number;
+    onChange: (value: number) => void;
+    label?: string;
+    resetLabel?: string;
+};
+export declare const AnalysisPointOpacityControl: ({ value, defaultValue, onChange, label, resetLabel }: AnalysisPointOpacityControlProps) => import("react").JSX.Element;
 /** Controlled settings only: data, persistence, translations and preview rendering belong to the application. */
-export declare const AnalysisPointSettings: <T extends readonly number[] = AnalysisPointColorThresholds>({ value, onChange, preview, labels: suppliedLabels, metrics, presets, showLowPolicyControls, showExistingNodesControl, existingNodesAvailable, lowPolicyHelp, existingNodesHelp, showColors, className }: AnalysisPointSettingsProps<T>) => import("react").JSX.Element;
+export declare const AnalysisPointSettings: <T extends readonly number[] = AnalysisPointColorThresholds>({ value, onChange, preview, labels: suppliedLabels, metrics, presets, showLowPolicyControls, showExistingNodesControl, existingNodesAvailable, lowPolicyHelp, existingNodesHelp, showColors, showOpacity, showBadgeStyleControl, className }: AnalysisPointSettingsProps<T>) => import("react").JSX.Element;
 //# sourceMappingURL=AnalysisPointSettings.d.ts.map

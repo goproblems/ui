@@ -1,13 +1,15 @@
 export declare const ANALYSIS_POINT_METRICS: readonly ["moveOrder", "policyOrder", "score", "policy", "visits", "descendantCount"];
 export type AnalysisPointMetric = (typeof ANALYSIS_POINT_METRICS)[number];
 export type AnalysisPointSlot = AnalysisPointMetric | 'none';
+export type AnalysisPointBadgeStyle = 'plain' | 'filled';
 export declare const ANALYSIS_POINT_SHAPES: readonly ["circle", "square", "variation"];
 export type AnalysisPointShape = (typeof ANALYSIS_POINT_SHAPES)[number];
 export declare const CUSTOM_ANALYSIS_POINT_SHAPES: readonly ["circle", "square"];
-export type AnalysisPointStylePreset = 'moveOrderOnly' | 'variationMarkers' | 'policyOrderOnly' | 'policyOnly' | 'standard' | 'detailed' | 'custom';
+export type AnalysisPointStylePreset = 'moveOrderOnly' | 'variationMarkers' | 'policyOrderOnly' | 'policyOnly' | 'standard' | 'analysisVisits' | 'analysisFutureNodes' | 'analysisVisitsWithPolicy' | 'detailed' | 'custom';
 export type AnalysisPointStyleLayout = {
     lines: [AnalysisPointSlot, AnalysisPointSlot, AnalysisPointSlot];
     badge: AnalysisPointSlot;
+    badgeStyle?: AnalysisPointBadgeStyle;
     shape: AnalysisPointShape;
 };
 export type AnalysisPointStyleSettings = {
