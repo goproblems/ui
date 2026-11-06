@@ -15,7 +15,7 @@ export { Accordion } from './Accordion.js';
 export { Image, Pagination, Placeholder, ProgressBar } from './Misc.js';
 export { Collapse, Offcanvas } from './Offcanvas.js';
 export { UiProvider } from './UiProvider.js';
-export { AnalysisPointSettings, AnalysisPointColorScale } from './AnalysisPointSettings.js';
+export { AnalysisPointSettings, AnalysisPointColorScale, AnalysisPointOpacityControl } from './AnalysisPointSettings.js';
 export * from './analysisPointConfig.js';
 export { BoardSettings } from './BoardSettings.js';
 //# sourceMappingURL=index.js.map

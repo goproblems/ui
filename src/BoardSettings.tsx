@@ -66,7 +66,7 @@ export const BoardSettings = <TTheme extends string,>({value, onChange, themes, 
             </div>}
         </Fragment>)}
         {children}
-        <fieldset className="ui-board-theme-fieldset">
+        <fieldset className="ui-settings-fieldset ui-board-theme-fieldset">
             <legend>{labels.theme}</legend>
             <div className="ui-board-theme-grid">{themes.map(option => <label key={option.value} className={clsx('ui-board-theme-option', value.theme === option.value && 'is-selected')}>
                 <input type="radio" name={`${id}-theme`} value={option.value} checked={value.theme === option.value} onChange={() => onChange({...value, theme: option.value})}/>

@@ -9,6 +9,7 @@ export const ANALYSIS_POINT_METRICS = [
 
 export type AnalysisPointMetric = (typeof ANALYSIS_POINT_METRICS)[number];
 export type AnalysisPointSlot = AnalysisPointMetric | 'none';
+export type AnalysisPointBadgeStyle = 'plain' | 'filled';
 export const ANALYSIS_POINT_SHAPES = ['circle', 'square', 'variation'] as const;
 export type AnalysisPointShape = (typeof ANALYSIS_POINT_SHAPES)[number];
 export const CUSTOM_ANALYSIS_POINT_SHAPES = ['circle', 'square'] as const;
@@ -18,12 +19,16 @@ export type AnalysisPointStylePreset =
     | 'policyOrderOnly'
     | 'policyOnly'
     | 'standard'
+    | 'analysisVisits'
+    | 'analysisFutureNodes'
+    | 'analysisVisitsWithPolicy'
     | 'detailed'
     | 'custom';
 
 export type AnalysisPointStyleLayout = {
     lines: [AnalysisPointSlot, AnalysisPointSlot, AnalysisPointSlot];
     badge: AnalysisPointSlot;
+    badgeStyle?: AnalysisPointBadgeStyle;
     shape: AnalysisPointShape;
 };
 
@@ -72,6 +77,21 @@ export const ANALYSIS_POINT_STYLE_PRESETS: Record<
         badge: 'moveOrder',
         shape: 'circle',
     },
+    analysisVisits: {
+        lines: ['score', 'visits', 'none'],
+        badge: 'moveOrder',
+        shape: 'circle',
+    },
+    analysisFutureNodes: {
+        lines: ['score', 'descendantCount', 'none'],
+        badge: 'moveOrder',
+        shape: 'circle',
+    },
+    analysisVisitsWithPolicy: {
+        lines: ['policy', 'score', 'visits'],
+        badge: 'moveOrder',
+        shape: 'circle',
+    },
     detailed: {
         lines: ['policy', 'score', 'descendantCount'],
         badge: 'moveOrder',
@@ -85,6 +105,7 @@ export const DEFAULT_ANALYSIS_POINT_STYLE_SETTINGS: AnalysisPointStyleSettings =
         custom: {
             lines: ['score', 'descendantCount', 'none'],
             badge: 'moveOrder',
+            badgeStyle: 'plain',
             shape: 'circle',
         },
     };
@@ -116,6 +137,9 @@ export function isAnalysisPointStylePreset(
             'policyOrderOnly',
             'policyOnly',
             'standard',
+            'analysisVisits',
+            'analysisFutureNodes',
+            'analysisVisitsWithPolicy',
             'detailed',
             'custom',
         ].includes(value)
@@ -163,6 +187,9 @@ export function isAnalysisPointStyleLayout(
         candidate.lines.length !== 3 ||
         !candidate.lines.every(isAnalysisPointSlot) ||
         !isAnalysisPointSlot(candidate.badge) ||
+        (candidate.badgeStyle !== undefined &&
+            candidate.badgeStyle !== 'plain' &&
+            candidate.badgeStyle !== 'filled') ||
         !isAnalysisPointShape(candidate.shape)
     ) {
         return false;
