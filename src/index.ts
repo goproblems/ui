@@ -23,3 +23,11 @@ export type {AnalysisPointSettingsProps, AnalysisPointSettingsLabels, AnalysisPo
 export * from './analysisPointConfig.js';
 export {BoardSettings} from './BoardSettings.js';
 export type {BoardSettingsProps, BoardSettingsValue, BoardSettingsLabels, BoardSettingsThemeOption} from './BoardSettings.js';
+
+export {AnalysisPointDisplayControls, AnalysisPointColorEditor} from './AnalysisPointDisplayControls.js';
+export type {AnalysisDisplayLabels, AnalysisDisplayBasis, AnalysisDisplayRule, AnalysisDisplayEmphasis, AnalysisPointDisplayValue, AnalysisColorBand, AnalysisPointColorValue, AnalysisPointDisplayControlsProps, AnalysisPointColorEditorProps} from './AnalysisPointDisplayControls.js';
+export {AnalysisPointCanvas} from './AnalysisPointCanvas.js';
+export type {AnalysisPointCanvasProps} from './AnalysisPointCanvas.js';
+export {drawAnalysisPoint} from './drawAnalysisPoint.js';
+export type {AnalysisPointRenderOptions} from './drawAnalysisPoint.js';
+export {drawAnalysisPointBadge} from './analysisPointBadge.js';

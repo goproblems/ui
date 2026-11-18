@@ -18,4 +18,8 @@ export { UiProvider } from './UiProvider.js';
 export { AnalysisPointSettings, AnalysisPointColorScale, AnalysisPointOpacityControl } from './AnalysisPointSettings.js';
 export * from './analysisPointConfig.js';
 export { BoardSettings } from './BoardSettings.js';
+export { AnalysisPointDisplayControls, AnalysisPointColorEditor } from './AnalysisPointDisplayControls.js';
+export { AnalysisPointCanvas } from './AnalysisPointCanvas.js';
+export { drawAnalysisPoint } from './drawAnalysisPoint.js';
+export { drawAnalysisPointBadge } from './analysisPointBadge.js';
 //# sourceMappingURL=index.js.map
